@@ -1,4 +1,5 @@
-# Project Title: E-Commerce Application (MERN Stack)
+# Project Title: 
+E-Commerce Application 
 
 ## Project Overview
 This project is a comprehensive e-commerce platform designed to provide a fully functional online shopping experience. It includes features like user authentication, product management, and order handling. The purpose is to build a robust and scalable application that demonstrates full-stack development skills using the MERN stack.
