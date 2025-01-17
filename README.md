@@ -20,3 +20,8 @@ This project is a comprehensive e-commerce platform designed to provide a fully 
 
 ## Why This Project
 I chose this project because it provides an opportunity to practice and demonstrate a wide range of development skills, including frontend and backend development, database schema design, and secure authentication. Building an e-commerce platform is both challenging and rewarding, as it allows me to explore real-world scenarios and enhance my ability to create scalable web applications.
+
+## Updates
+
+.Create Repository
+.Login Page added
