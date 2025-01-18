@@ -1,0 +1,15 @@
+meta {
+  name: Multer Post Request
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8084/upload
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  myfile: @file(C:\Users\Lenovo\Pictures\Working with Text- F1.png) @contentType(Auto)
+}
