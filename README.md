@@ -23,6 +23,8 @@ I chose this project because it provides an opportunity to practice and demonstr
 
 ## Updates
 
-.Create Repository
-.Login Page added
-.Server.js added and connected to MongosDB 
+Milestone 1 - Created Repository
+Milestone 2 - Added Login Page in Frontend
+Milestone 3 - Server.js added and connected to MongosDB
+Milestone 4 - Updated server.js with multer
+Milestone 5 - Creating the Signup page and   Added the form validation to the sign-up Page

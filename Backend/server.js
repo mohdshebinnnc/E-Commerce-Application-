@@ -1,8 +1,10 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const multer=require('multer')
-
 const {userModel} =require("./model/user.model")
+const bcrypt=require("bcrypt")
+
+require('dotenv').config()
 
 const app=express()
 const PORT=8084
@@ -36,19 +38,41 @@ app.post("/upload",upload.single("myFile"),(req,res)=>{
         res.send({error:"error"})
     }
 })
-app.post('/create',async(req,res)=>{
-    let payload=req.body
-    console.log(payload)
-    try{
-        let new_user=new userModel(payload);
-        await new_user.save();
-        res.send({"message":"Hurray! Successfully saved the user to the database"})
-    }
-    catch(error){
-        console.log(error);
-        res.send({"error":error})
+
+
+app.post("/signup" , async (req,res) => {
+    console.log(req.body)
+    const {name,email,password}=req.body
+    const userPresent=await userModel.findOne({email})
+    if(userPresent?.email){
+        res.send("Try loggin in ,already exist")
+    }else{
+        try {
+            bcrypt.hash(password,4,async function (err,hash){
+                const user = new userModel({name,email,password:hash})
+                await user.save()
+                res.send("Sign up successfull")
+            })
+        } catch (error) {
+            console.log(err)
+            res.send("Something went wrong,pls try again later")
+        }
     }
 })
+
+// app.post('/create',async(req,res)=>{
+//     let payload=req.body
+//     console.log(payload)
+//     try{
+//         let new_user=new userModel(payload);
+//         await new_user.save();
+//         res.send({"message":"Hurray! Successfully saved the user to the database"})
+//     }
+//     catch(error){
+//         console.log(error);
+//         res.send({"error":error})
+//     }
+// })
 
 app.listen(PORT,async()=>{
     try{
