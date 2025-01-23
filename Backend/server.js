@@ -3,15 +3,15 @@ const mongoose=require('mongoose')
 const multer=require('multer')
 const {userModel} =require("./model/user.model")
 const bcrypt=require("bcrypt")
-
+const jwt=require("jsonwebtoken")
 require('dotenv').config()
 
 const app=express()
-const PORT=8084
+
 
 app.use(express.json())
 
-let connection= mongoose.connect("mongodb+srv://mohammedshebinc92:5zU3VGl55Wr9xw9r@cluster0.enuvl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+let connection= mongoose.connect(process.env.mongoURL)
 
 
 app.get('/ping',(req,res)=>{
@@ -60,21 +60,55 @@ app.post("/signup" , async (req,res) => {
     }
 })
 
-// app.post('/create',async(req,res)=>{
-//     let payload=req.body
-//     console.log(payload)
-//     try{
-//         let new_user=new userModel(payload);
-//         await new_user.save();
-//         res.send({"message":"Hurray! Successfully saved the user to the database"})
-//     }
-//     catch(error){
-//         console.log(error);
-//         res.send({"error":error})
-//     }
-// })
+app.post('/create',async(req,res)=>{
+    let payload=req.body
+    // console.log(payload)
 
-app.listen(PORT,async()=>{
+     // Hash the password
+    const hashedPassword = await bcrypt.hash(payload.password, 10);
+     payload.password = hashedPassword; // Replace the plain password with the hashed one
+ 
+    try{
+        let new_user=new userModel(payload);
+        await new_user.save();
+        res.send({"message":"Hurray! Successfully saved the user to the database"})
+    }
+    catch(error){
+        console.log(error);
+        res.send({"error":error})
+    }
+})
+
+
+
+
+app.post("/login",async (req,res) => {
+
+    const {email,password}=req.body
+
+    try {
+        let user =await userModel.find({email})
+
+        if (user.length > 0) {
+            let hashed_password=user[0].password;
+            bcrypt.compare(password,hashed_password,function(err,result){
+                if (result) {
+                    const token=jwt.sign({"userID": user[0]._id},process.env.SCRET_KEY)
+                    res.send({"msg":"Login Successfull","token": token})
+                }else{
+                    res.send("Login Failed! Enter the correct password")
+                }
+            })
+        }else{
+            res.send("Login failed! Please register first")
+        }
+    } catch (error) {
+        res.json({"Message": "Something went wrong!",error})
+    }
+})
+
+
+app.listen(process.env.PORT,async()=>{
     try{
         await connection;
         console.log("Successfully connected to mongoDb")
@@ -82,5 +116,5 @@ app.listen(PORT,async()=>{
     catch(error){
         console.log(error)
     }
-    console.log(`Server is running on port ${PORT}`)
+    console.log(`Server is running on port ${process.env.PORT}`)
 })

@@ -21,10 +21,50 @@ This project is a comprehensive e-commerce platform designed to provide a fully 
 ## Why This Project
 I chose this project because it provides an opportunity to practice and demonstrate a wide range of development skills, including frontend and backend development, database schema design, and secure authentication. Building an e-commerce platform is both challenging and rewarding, as it allows me to explore real-world scenarios and enhance my ability to create scalable web applications.
 
-## Updates
 
-Milestone 1 - Created Repository
-Milestone 2 - Added Login Page in Frontend
-Milestone 3 - Server.js added and connected to MongosDB
-Milestone 4 - Updated server.js with multer
-Milestone 5 - Creating the Signup page and   Added the form validation to the sign-up Page
+## Milestones
+
+### Milestone 1: Repository Creation
+
+* Created a GitHub repository named "Ecommerce-Follow-Along" with a README file.
+
+### Milestone 2: Initial Setup & Login Page
+
+* Pushed code to the GitHub repository.
+* Created separate folders for frontend and backend.
+* Implemented a functional Login Page in the frontend.
+
+### Milestone 3: Project Setup & Foundation
+
+* Established project structure, database connection, and basic error handling.
+
+### Milestone 4: User Authentication & File Uploads
+
+* Implemented user registration, login, and file upload functionalities.
+* Integrated user authentication and authorization middleware.
+
+### Milestone 5: User Signup
+
+* Created the Signup page with form validation.
+
+### Milestone 6
+
+1. **Encrypt Password:**
+    * Hash the user's password using `bcrypt` during signup.
+    * Store the hashed password in the database.
+
+2. **Store User Data:**
+    * Save all user data (e.g., name, email) in the database. 
+    * Ensure the password remains encrypted and secure.
+
+
+### Milestone 7:
+
+**Login Endpoint**
+
+1. **Accept User Credentials:** Receive user input for email/username and password.
+2. **Retrieve User:** Query the database to find the user associated with the provided credentials.
+3. **Password Validation:**
+    * Hash the entered password using `bcrypt`.
+    * Compare the hashed input with the stored hashed password in the database. 
+    * If they match, authentication is successful.
