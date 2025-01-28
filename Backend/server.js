@@ -4,7 +4,9 @@ const multer=require('multer')
 const {userModel} =require("./model/user.model")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
+const { productRouter } = require('./routes/product.route')
 require('dotenv').config()
+
 
 const app=express()
 
@@ -106,6 +108,9 @@ app.post("/login",async (req,res) => {
         res.json({"Message": "Something went wrong!",error})
     }
 })
+
+
+app.use("/product",productRouter)
 
 
 app.listen(process.env.PORT,async()=>{
