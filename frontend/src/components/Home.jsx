@@ -1,14 +1,29 @@
-import productData from "./data.json"
+// import productData from "./data.jso  n"
 import Cart from "./cart";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Home() {
+
+    let [productData,setProductData]=useState([])
+
+    useEffect(()=> {
+        fetch("http://localhost:8080/product").then((res) => {
+            return res.json()
+        }).then((res) => {
+            console.log(res)
+            setProductData(res.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    })
 
     const navigate=useNavigate()
 
     const navBarStyle = {
         display: "flex",
-        justifyContent: "flex-end",
+        // justifyContent: "flex-end",
+        justifyContent:"space-between",
         alignItems: "center",
         padding: "10px 20px",
         backgroundColor: "#007bff",
@@ -24,6 +39,7 @@ function Home() {
         fontSize: "24px",
         fontWeight: "bold",
         cursor: "pointer",
+        
     };
 
     const linkContainerStyle = {
