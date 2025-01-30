@@ -4,6 +4,15 @@ const { productModel } = require("../model/product.model")
 
 let productRouter=express.Router()
 
+productRouter.get("/",async(req,res) => {
+    try {
+        const product=await productModel.find()
+        res.send({"message": "Successfully retrived the data from database",data:product})
+    } catch (error) {
+        res.send({"Error-message":error})
+    }
+})
+
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
@@ -15,7 +24,6 @@ const storage=multer.diskStorage({
 });
 
 const upload = multer({ storage: storage })
-
 
 productRouter.post("/create",upload.array('productImage',12),async(req,res) => {
 
