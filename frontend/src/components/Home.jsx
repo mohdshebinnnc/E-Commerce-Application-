@@ -1,29 +1,27 @@
-// import productData from "./data.jso  n"
-import Cart from "./cart";
 import { useNavigate } from "react-router-dom";
+// import productData from "./data.json"
+import Cart from "./cart";
 import { useEffect, useState } from "react";
 
 function Home() {
+    const navigate = useNavigate();
 
-    let [productData,setProductData]=useState([])
+    let [productData,setProductData]=useState([]);
 
-    useEffect(()=> {
-        fetch("http://localhost:8080/product").then((res) => {
-            return res.json()
-        }).then((res) => {
+    useEffect(()=>{
+        fetch("http://localhost:8080/product").then((res)=>{
+            return res.json();
+        }).then((res)=>{
             console.log(res)
             setProductData(res.data)
-        }).catch((err) => {
+        }).catch((err)=>{
             console.log(err)
         })
     })
 
-    const navigate=useNavigate()
-
     const navBarStyle = {
         display: "flex",
-        // justifyContent: "flex-end",
-        justifyContent:"space-between",
+        justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 20px",
         backgroundColor: "#007bff",
@@ -32,14 +30,14 @@ function Home() {
         top: "0",
         width: "100%",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        zIndex: 10,
     };
 
     const logoStyle = {
         fontSize: "24px",
         fontWeight: "bold",
         cursor: "pointer",
-        
     };
 
     const linkContainerStyle = {
@@ -48,7 +46,6 @@ function Home() {
     };
 
     const linkStyle = {
-        marginLeft: "20px",
         color: "white",
         textDecoration: "none",
         cursor: "pointer",
@@ -60,24 +57,23 @@ function Home() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
+        height: "150px",
         boxSizing: "border-box",
-        overflowX: "hidden", // Prevent horizontal scrolling
         padding: "20px",
-        textAlign:"center"
+        backgroundColor: "#f8f9fa",
+        textAlign: "center",
     };
 
-    const container={
+    const cartStyle = {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", // Responsive layout
         gap: "30px",
         padding: "40px",
         backgroundColor: "#f1f1f1",
-
-    }
+    };
 
     return (
-        <div style={{ overflowX: "hidden" }}> {/* Prevent horizontal overflow */}
+        <div>
             <nav style={navBarStyle}>
                 <div style={logoStyle} onClick={() => navigate("/")}>
                     E-Commerce
@@ -92,22 +88,15 @@ function Home() {
                 </div>
             </nav>
             <div style={containerStyle}>
-                <h1>Welcome to the Home Page</h1>
+                <h1>Welcome to E-Commerce</h1>
             </div>
-
-            <div style={container}>
-
-                {
-                    productData?.map((product) => {
-                        return <Cart key={product.id} product={product}></Cart>
-                    })
-                }
+            <div style={cartStyle}>
+                {productData?.map((product) => (
+                    <Cart key={product.id} product={product}></Cart>
+                ))}
             </div>
         </div>
     );
 }
 
 export default Home;
-
-
-
