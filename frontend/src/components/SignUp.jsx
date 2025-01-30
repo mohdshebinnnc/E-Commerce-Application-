@@ -87,7 +87,7 @@ const SignUp = () => {
 
     const buttonStyle = {
         padding: "12px",
-        width: "100%",
+        width: "90%",
         backgroundColor: "#007bff",
         color: "#fff",
         border: "none",
