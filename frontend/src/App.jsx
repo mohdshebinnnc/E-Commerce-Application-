@@ -16,7 +16,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/productForm" element={<ProductForm/>}/>
-        <Route path="/editProduct" element={<EditProduct/>}/>
+        <Route path="/editProduct/:id" element={<EditProduct/>}/>
+
 
       </Routes>   
     </Router>
@@ -24,4 +25,3 @@ function App() {
   );
 }
 export default App;
-

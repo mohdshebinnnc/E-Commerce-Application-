@@ -13,7 +13,9 @@ function Home() {
             return res.json();
         }).then((res)=>{
             console.log(res)
-            setProductData(res.data)
+        setProductData(res.data)
+        console.log(res.data) // Log the response data for debugging
+
         }).catch((err)=>{
             console.log(err)
         })
@@ -104,7 +106,8 @@ function Home() {
             </div>
             <div style={cartStyle}>
                 {productData?.map((product) => (
-                    <Cart key={product.id} product={product}></Cart>
+                    <Cart key={product.id} product={product} onDelete={() => handleDelete(product._id)}></Cart>
+
                 ))}
             </div>
         </div>

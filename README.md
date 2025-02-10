@@ -131,3 +131,39 @@ I chose this project because it provides an opportunity to practice and demonstr
 3. **Dynamic Update:**
    - After editing, save the updated data back to MongoDB.
 
+
+# Milestone 14: Delete Product by ID
+
+## 🖥️ Backend  
+- Create an endpoint to **delete a product** from MongoDB using its **ID**.  
+- Ensure proper error handling if the product **does not exist**.  
+- Return a success message upon **successful deletion**.  
+
+## 🎨 Frontend  
+- Add a **Delete** button to each **product card**.  
+- When clicked, send a **DELETE request** to the backend with the **product ID**.  
+- Confirm with the user before deletion (optional).  
+
+## 🔄 Dynamic Update  
+- **Remove** the deleted product from the **UI** without needing to refresh the page.  
+- Use **state management** or **React hooks** to update the list dynamically.  
+
+---
+
+# Milestone 15: Responsive Navbar  
+
+## 🏗️ Create Navbar Component  
+- Add navigation links for:  
+  - **Home** 🏠  
+  - **My Products** 📦  
+  - **Add Product** ➕  
+  - **Cart** 🛒  
+
+## 📱 Make It Responsive  
+- Use **CSS Flexbox/Grid** or a **CSS framework** (e.g., Tailwind, Bootstrap) for responsiveness.  
+- Ensure the navbar works on **all screen sizes**, including mobile devices.  
+- Implement a **hamburger menu** for smaller screens.  
+
+## 🔗 Integrate with Pages  
+- Add the navbar to **all pages** for smooth navigation.  
+- Ensure **active page highlighting** for better user experience.  

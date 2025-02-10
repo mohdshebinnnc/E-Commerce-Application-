@@ -1,12 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const ProductForm = () => {
+const ProductForm = ({ initialData, onDelete }) => {
+
     const [formData, setFormData] = useState({
-        productName: "",
-        productDescription: "",
-        productPrice: "",
+        productName: initialData.productName || "",
+        productDescription: initialData.productDescription || "",
+        productPrice: initialData.productPrice || "",
         productImage: null, 
     });
+
 
     const [error, setError] = useState("");
 
@@ -26,21 +28,56 @@ const ProductForm = () => {
         }
     };
 
+    const handleDelete = () => {
+        fetch(`http://localhost:8080/product/delete/${initialData._id}`, {
+            method: 'DELETE',
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            alert(data.message);
+            onDelete(); // Call the onDelete function passed from the parent component
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
     const handleSubmit = (e) => {
+
         e.preventDefault();
         
         const { productName, productDescription, productPrice, productImage } = formData;
         
         // Validate inputs first
-        if (!productName || !productDescription || !productPrice || !productImage) {
+        if (!productName || !productDescription || !productPrice) {
             setError('All fields are required');
             return;
         } else {
             setError('');
         }
         
-        // Simulating form submission for now
-        alert("Product added successfully!");
+        // Submit the form data to the backend
+        fetch('http://localhost:8080/product/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        body: JSON.stringify({
+            productName,
+            productDescription,
+            productPrice,
+            productImage
+        }),
+
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            alert(data.message);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
 
         console.log(formData)
     };
@@ -166,7 +203,11 @@ const ProductForm = () => {
                     />
                 </div>
                 {error && <p style={errorStyle}>{error}</p>}
+                <button type="button" onClick={handleDelete} style={buttonStyle}>
+                    Delete Product
+                </button>
                 <button type="submit" style={buttonStyle}>
+
                     Add Product
                 </button>
             </form>
@@ -175,5 +216,3 @@ const ProductForm = () => {
 };
 
 export default ProductForm;
-
-

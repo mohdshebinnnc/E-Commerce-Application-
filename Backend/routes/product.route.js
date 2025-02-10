@@ -1,8 +1,8 @@
 const express=require("express")
-const multer=require("multer")
-const { productModel } = require("../model/product.model")
+const multer = require("multer");
+const { productModel } = require("../model/product.model");
 
-let productRouter=express.Router()
+let productRouter = express.Router()
 
 productRouter.get("/",async(req,res) => {
     try {
@@ -23,22 +23,40 @@ productRouter.get("/:id",async(req,res) => {
     }
 })
 
+productRouter.delete("/delete/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deletedProduct = await productModel.findByIdAndDelete(id);
+        if (!deletedProduct) {
+            return res.status(404).send({ "message": "Product Not found" });
+        }
+        res.status(200).send({ "message": "Successfully deleted the product", data: deletedProduct });
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+});
 
-productRouter.delete("/delete/:id",async(req,res) => {
+productRouter.put("/update/:id", async (req, res) => {
 
-    let id=req.params.id
+    const id = req.params.id;
+    const { productName, productDescription, productPrice, productImages } = req.body;
 
     try {
-        let deletedProduct=await productModel.findByIdAndDelete(id)
+        const updatedProduct = await productModel.findByIdAndUpdate(id, {
+            productName,
+            productDescription,
+            productPrice,
+            productImages
+        }, { new: true });
 
-        if(!deletedProduct){
-            res.status(404).send({"message":"Product Not found"})
+        if (!updatedProduct) {
+            return res.status(404).send({ "message": "Product Not found" });
         }
-        res.status(200).send({"message":"Successfully deleted the product"})
+        res.status(200).send({ "message": "Successfully updated the product", data: updatedProduct });
     } catch (error) {
-        res.status(500).json({"error":error.message})
+        res.status(500).json({ "error": error.message });
     }
-})
+});
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
@@ -56,7 +74,8 @@ productRouter.post("/create",upload.array('productImage',12),async(req,res) => {
     try {
         const {productName,productDescription,productPrice}=req.body
 
-    const imgPaths=req.files.map((file) =>`/uploads${file.filename}` )
+    const imgPaths=req.files.map((file) =>`/uploads/${file.filename}` )
+
 
     const newProduct= new productModel({
         productName,
