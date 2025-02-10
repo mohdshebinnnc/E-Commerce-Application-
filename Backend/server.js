@@ -9,17 +9,16 @@ const { productRouter } = require('./routes/product.route')
 const {loginRouter}=require("./routes/login.route")
 const {signUpRouter}=require("./routes/signup.route")
 
+// Temporarily set environment variables
+const mongoURL = "mongodb+srv://mohammedshebinc92:5zU3VGl55Wr9xw9r@cluster0.enuvl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const PORT = 8080;
 
-
-require('dotenv').config()
-const app=express()
+const app = express();
 app.use(express.json())
 
 app.use(cors()); // Enable CORS for all routes
 
-
-
-let connection= mongoose.connect(process.env.mongoURL)
+let connection = mongoose.connect(mongoURL);
 
 
 app.get('/ping',(req,res)=>{
@@ -71,7 +70,8 @@ app.use(signUpRouter)
 app.use(loginRouter)
 app.use("/product",productRouter)
 
-app.listen(process.env.PORT,async()=>{
+app.listen(PORT, async () => {
+
     try{
         await connection;
         console.log("Successfully connected to mongoDb")
@@ -79,5 +79,5 @@ app.listen(process.env.PORT,async()=>{
     catch(error){
         console.log(error)
     }
-    console.log(`Server is running on port ${process.env.PORT}`)
+    console.log(`Server is running on port ${PORT}`);
 })
