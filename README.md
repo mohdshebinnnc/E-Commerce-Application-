@@ -104,3 +104,30 @@ I chose this project because it provides an opportunity to practice and demonstr
 
 3. *Dynamic Display:*
    - Use the product card component to display all products dynamically on the page.
+
+
+### Milestone 12: Filter Products by User Email
+
+1. **Backend:**
+   - Create an endpoint to send products filtered by user email from MongoDB.
+
+2. **Frontend:**
+   - Write a function to fetch filtered data from the backend.
+   - Pass the data to the product card component.
+
+3. **Dynamic Display:**
+   - Use the product card component to display the filtered products dynamically.
+
+
+### Milestone 13: Update Existing Data
+
+1. **Backend:**
+   - Create an endpoint to update existing product data in MongoDB.
+
+2. **Frontend:**
+   - Add an edit button to the product card.
+   - On click, send the product data to a form, auto-fill the fields, and allow editing.
+
+3. **Dynamic Update:**
+   - After editing, save the updated data back to MongoDB.
+

@@ -1,6 +1,23 @@
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ product }) => {
+
+
+    const navigate=useNavigate()
+    const handleClick=()=> {
+        navigate(`/edit-product/${product._id}`)
+    }
+
+    const handleDelete=async()=>{
+        try {
+            axios.delete(`http://localhost:8080/delete/${product._id}`)
+            console.log(response.data.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const cartStyle = {
         border: "1px solid #ddd",
         borderRadius: "8px",
@@ -58,6 +75,17 @@ const Cart = ({ product }) => {
         cursor: "pointer",
     };
 
+    const editButton={
+        flex: "1",
+        padding: "8px",
+        fontSize: "14px",
+        color: "white",
+        border: "1px solid #ddd",
+        borderRadius: "5px",
+        backgroundColor: "red",
+        cursor: "pointer",
+    }
+
     return (
         <div className="cart" style={cartStyle}>
             <img src={product.productImage} alt={product.productName} style={imgStyle} />
@@ -68,6 +96,8 @@ const Cart = ({ product }) => {
                 <button style={buttonStyle}>Add to Cart</button>
                 <button style={buttonStyle}>Buy Now</button>
                 <button style={buttonStyle}>Wishlist</button>
+                <button style={editButton} onClick={handleClick}>Edit</button>
+                <button style={editButton} onClick={() => handleDelete(product._id)}>Delete</button>
             </div>
         </div>
     );

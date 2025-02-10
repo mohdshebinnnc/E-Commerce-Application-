@@ -19,6 +19,18 @@ function Home() {
         })
     })
 
+
+    const handleDelete=async(id)=> {
+        try {
+            let response=await axios.delete(`http://localhost:8080/product/delete/${id}`)
+            console.log(response.data.message)
+            const filteredData=productData.filter((e) =>e._id!=id)
+            setProductData(filteredData)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const navBarStyle = {
         display: "flex",
         justifyContent: "space-between",

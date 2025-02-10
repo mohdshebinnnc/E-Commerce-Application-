@@ -13,6 +13,32 @@ productRouter.get("/",async(req,res) => {
     }
 })
 
+productRouter.get("/:id",async(req,res) => {
+    let id=req.params.id
+    try {
+        const product=await productModel.findById(id)
+        res.send({"message": "Successfully retrived the data from database",data:product})
+    } catch (error) {
+        res.send({"Error-message":error})
+    }
+})
+
+
+productRouter.delete("/delete/:id",async(req,res) => {
+
+    let id=req.params.id
+
+    try {
+        let deletedProduct=await productModel.findByIdAndDelete(id)
+
+        if(!deletedProduct){
+            res.status(404).send({"message":"Product Not found"})
+        }
+        res.status(200).send({"message":"Successfully deleted the product"})
+    } catch (error) {
+        res.status(500).json({"error":error.message})
+    }
+})
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
