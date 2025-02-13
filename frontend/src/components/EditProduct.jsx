@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const EditProduct = () => {
+const EditProduct = ({ onEdit }) => {
     const { id } = useParams();
     const [product, setProduct] = useState({});
     const [error, setError] = useState("");
@@ -33,20 +33,6 @@ const EditProduct = () => {
         }
     };
 
-    const handleDelete = () => {
-        fetch(`http://localhost:8080/product/delete/${id}`, {
-            method: 'DELETE',
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            alert(data.message);
-            // Optionally redirect or update the UI after deletion
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -60,16 +46,24 @@ const EditProduct = () => {
             setError('');
         }
 
+        const formData = new FormData();
+        formData.append('productName', productName);
+        formData.append('productDescription', productDescription);
+        formData.append('productPrice', productPrice);
+        formData.append('productImage', productImage);
+
         fetch(`http://localhost:8080/product/update/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(product),
+            body: formData,
         })
         .then((res) => res.json())
         .then((data) => {
+            console.log("Updated product data:", { ...product, id }); // Log the updated product data
+            console.log("Updated product data:", { ...product, id }); // Log the updated product data
             alert(data.message);
+
+
+            onEdit({ ...product, id }); // Call the onEdit callback with the updated product
         })
         .catch((err) => {
             console.log(err);
@@ -202,8 +196,6 @@ const EditProduct = () => {
                         Update Product
                     </button>
                 </form>
-                {/* Delete button removed from here */}
-
             </div>
         </div>
     );
