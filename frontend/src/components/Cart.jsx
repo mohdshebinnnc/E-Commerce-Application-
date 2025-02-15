@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Cart = ({ cartItems }) => {
+
+  useEffect(() => {
+    fetch("http://localhost:8080/cart", {
+      method:"GET",
+      headers:{"Content-Type":"application/json",
+        "authorization":`bearee ${localStorage.getItem("Token")}`
+      }
+    })
+    .then((res) => {
+      return res.json()
+    }).then((res) =>{
+      console.log(res)
+    })
+  },[])
+
   return (
     <div>
       <h2>🛒 Cart Items</h2>

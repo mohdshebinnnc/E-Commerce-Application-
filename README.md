@@ -167,3 +167,13 @@ I chose this project because it provides an opportunity to practice and demonstr
 ## 🔗 Integrate with Pages  
 - Add the navbar to **all pages** for smooth navigation.  
 - Ensure **active page highlighting** for better user experience.  
+
+
+### Milestone 16 
+
+1. **Create ProductInfo.jsx** – Fetch and display product details.  
+2. *Add Quantity & Cart Button* – Allow quantity selection and add to cart.  
+3. *Update Routing* – Add /product/:id route in App.jsx.  
+4. *Make Products Clickable* – Link product cards to ProductInfo.jsx.  
+5. *Enhance Cart* (Optional) – Store cart data in state/backend.
+
