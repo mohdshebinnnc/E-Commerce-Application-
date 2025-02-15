@@ -15,7 +15,17 @@ app.use(express.json());
 
 app.use(cors()); // Enable CORS for all routes
 
-let connection = mongoose.connect(process.env.mongoURL);
+if (!process.env.mongoURL) {
+  console.error("Error: MongoDB connection URL is not defined in environment variables");
+  process.exit(1);
+}
+
+let connection = mongoose.connect(process.env.mongoURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000
+});
+
 
 
 app.get("/ping", (req, res) => {
@@ -67,12 +77,18 @@ app.use("/product", productRouter);
 app.use("/cart",cartRouter)
 
 
+if (!process.env.PORT) {
+  console.error("Error: PORT is not defined in environment variables");
+  process.exit(1);
+}
+
 app.listen(process.env.PORT, async () => {
   try {
     await connection;
     console.log("Successfully connected to MongoDB");
   } catch (error) {
-    console.log(error);
+    console.error("Failed to connect to MongoDB:", error.message);
+    process.exit(1);
   }
   console.log(`Server is running on port ${process.env.PORT}`);
 });
