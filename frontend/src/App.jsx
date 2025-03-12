@@ -8,7 +8,9 @@ import EditProduct from "./components/EditProduct";
 import Navbar from "./components/Navbar"; // Importing the Navbar component
 import Card from "./components/Card";
 import Cart from "./components/Cart";
+import Profile from "./components/Profile"
 import { useState } from "react";
+import Orders from "./components/Orders";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -29,9 +31,11 @@ function App() {
         <Route path="/editProduct/:id" element={<EditProduct />} />
         <Route path="/cart-item" element={<Cart cartItems={cartItems} />} />
         <Route path="/cart" element={<Card addToCart={addToCart} />} />
+        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/order" element={<Orders/>}/>
       </Routes>
     </Router>
   );
 }
-
+  
 export default App;

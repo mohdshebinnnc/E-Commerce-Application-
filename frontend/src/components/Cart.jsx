@@ -1,25 +1,35 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 
 const Cart = ({ cartItems }) => {
-
   useEffect(() => {
-    fetch("http://localhost:8080/cart", {
-      method:"GET",
-      headers:{"Content-Type":"application/json",
-        "authorization":`bearee ${localStorage.getItem("Token")}`
-      }
+    fetch("http://localhost:8080/product", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("Token")}`,
+      },
     })
-    .then((res) => {
-      return res.json()
-    }).then((res) =>{
-      console.log(res)
-    })
-  },[])
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json(); // Convert response to JSON
+      })
+      .then((data) => {
+        console.log("Fetched Products:", data); // Debug response
+        if (Array.isArray(data)) {
+          setProductData(data); // Ensure data is an array
+        } else {
+          console.error("Invalid product data format", data);
+        }
+      })
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
 
   return (
     <div>
       <h2>🛒 Cart Items</h2>
-      {cartItems.length === 0 ? (
+      {!cartItems || cartItems.length === 0 ? (
         <p>No items in cart.</p>
       ) : (
         cartItems.map((item, index) => (

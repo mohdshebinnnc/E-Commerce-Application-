@@ -17,7 +17,7 @@ const productSchema= mongoose.Schema({
     productImage:{
         type:[String],
         required:true
-    }
+    }   
 })
 
 const productModel=mongoose.model("productCollection",productSchema)

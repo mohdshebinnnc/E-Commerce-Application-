@@ -1,32 +1,37 @@
-const express=require('express')
-const {userModel}=require("../model/user.model")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
+const express = require("express");
+const { userModel } = require("../model/user.model");
+const bcrypt = require("bcrypt");
 
-require('dotenv').config()
-const app=express()
+const signUpRouter = express.Router();
 
-let signUpRouter=express.Router()
+signUpRouter.post("/signup", async (req, res) => {
+  console.log(req.body);
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res.status(400).json({ msg: "All fields are required" });
+  }
 
-
-signUpRouter.post("/signup" , async (req,res) => {
-    console.log(req.body)
-    const {name,email,password}=req.body
-    const userPresent=await userModel.findOne({email})
-    if(userPresent?.email){
-        res.send("Try loggin in ,already exist")
-    }else{
-        try {
-            bcrypt.hash(password,4,async function (err,hash){
-                const user = new userModel({name,email,password:hash})
-                await user.save()
-                res.send("Sign up successfull")
-            })
-        } catch (error) {
-            console.log(err)
-            res.send("Something went wrong,pls try again later")
-        }
+  try {
+    // Check if the user already exists
+    const userPresent = await userModel.findOne({ email });
+    if (userPresent) {
+      return res
+        .status(400)
+        .json({ msg: "User already exists. Try logging in!" });
     }
-})
 
-module.exports={signUpRouter}
+    // Hash the password and save the user
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new userModel({ name, email, password: hashedPassword });
+    await newUser.save();
+
+    return res.status(201).json({ msg: "Signup successful", newuser: newUser });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ msg: "Something went wrong. Please try again later." });
+  }
+});
+
+module.exports = { signUpRouter };

@@ -8,20 +8,36 @@ const Home = ({ addToCart }) => {
   let [productData, setProductData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/product")
+    const token = localStorage.getItem("Token");
+  
+    if (!token) {
+      console.error("No token found. Please log in.");
+      return;
+    }
+  
+    fetch("http://localhost:8080/product", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, // Attach token here
+      },
+    })
       .then((res) => {
+        if (!res.ok) {
+          return res.text().then((text) => { throw new Error(text) });
+        }
         return res.json();
       })
       .then((res) => {
-        console.log(res);
+        console.log("Fetched Products:", res);
         setProductData(res.data || []);
-
-        console.log(res.data); // Log the response data for debugging
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error fetching products:", err);
       });
   }, []);
+  
+  
 
   const handleDelete = async (id) => {
     try {
@@ -37,7 +53,7 @@ const Home = ({ addToCart }) => {
   };
 
   const handleEdit = (updatedProduct) => {
-    console.log("Editing product:", updatedProduct); // Log the product being edited
+    console.log("Editing product:", updatedProduct); 
     setProductData((prevData) =>
       prevData.map((product) =>
         product._id === updatedProduct._id ? updatedProduct : product
@@ -75,7 +91,7 @@ const Home = ({ addToCart }) => {
           key={index}
           product={product}
           onDelete={() => handleDelete(product._id)}
-          addToCart={addToCart}  // ✅ Correctly passing function
+          addToCart={addToCart}   
           onEdit={handleEdit}
         />
         

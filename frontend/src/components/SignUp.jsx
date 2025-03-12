@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const SignUp = () => {
     });
 
     const [error, setError] = useState("");
+    const navigate=useNavigate();
 
     const handleChange = (e) => {
         setFormData({
@@ -16,22 +18,34 @@ const SignUp = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, email, password } = formData;
-
-        if (!name || !email || !password) {
-            setError("All fields are required");
-        } else if (!email.includes("@")) {
-            setError("Enter a valid email");
-        } else if (password.length < 6) {
-            setError("Password must be at least 6 characters");
-        } else {
-            setError("");
-            alert("Form submitted!");
+    
+        try {
+            const response = await fetch("http://localhost:8080/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password }),
+            });
+    
+            // ✅ Always parse as JSON
+            const data = await response.json();
+            console.log("Server response:", response.status, data);
+    
+            if (response.ok) {
+                alert("Signup successful! Please log in.");
+                navigate("/login")
+            } else {
+                setError(data.msg || "Something went wrong.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            setError("Server error. Please try again later.");
         }
     };
-
+    
+    
     const containerStyle = {
         display: "flex",
         justifyContent: "center",

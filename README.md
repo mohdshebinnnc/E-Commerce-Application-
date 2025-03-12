@@ -177,3 +177,25 @@ I chose this project because it provides an opportunity to practice and demonstr
 4. *Make Products Clickable* – Link product cards to ProductInfo.jsx.  
 5. *Enhance Cart* (Optional) – Store cart data in state/backend.
 
+## Milestone 17: Add to Cart Backend
+
+### Learning Goals  
+- Modify the user schema to store cart products.  
+- Create an endpoint to add products to the cart.  
+
+### Steps  
+1. Update the user schema to include cart products.  
+2. Write an endpoint to store product details in the cart.  
+
+---
+
+## Milestone 18: Fetch Cart Products
+
+### Learning Goals  
+- Create an endpoint to retrieve products from the user's cart.  
+
+### Steps  
+1. Build a backend endpoint to fetch cart products using the user’s email.  
+2. Integrate with the cart page.  
+
+---

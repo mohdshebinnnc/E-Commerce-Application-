@@ -8,7 +8,7 @@ const Card = ({ product, onEdit, addToCart }) => {
   // ✅ Prevent rendering if product is undefined or null
   if (!product) {
     return <p>No product added...</p>;
-  }
+  }                                                                                                                   
 
   const handleClick = () => {
     navigate(`/editProduct/${product._id}`);
