@@ -4,11 +4,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const { userModel } = require("./model/user.model");
-const jwt = require("jsonwebtoken");
 const { productRouter } = require("./routes/product.route");
 const { loginRouter } = require("./routes/login.route");
 const { signUpRouter } = require("./routes/signup.route");
-const {cartRouter} =require("./routes/cart.route")
+const { cartRouter } = require("./routes/cart.route");
+const { userRouter } = require("./routes/user.route");
+const { authenticate } = require("./middleware/authentication");
 
 const app = express();
 app.use(express.json());
@@ -16,17 +17,17 @@ app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
 
 if (!process.env.mongoURL) {
-  console.error("Error: MongoDB connection URL is not defined in environment variables");
+  console.error(
+    "Error: MongoDB connection URL is not defined in environment variables"
+  );
   process.exit(1);
 }
 
 let connection = mongoose.connect(process.env.mongoURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000
+  serverSelectionTimeoutMS: 5000,
 });
-
-
 
 app.get("/ping", (req, res) => {
   res.send("Pong");
@@ -57,7 +58,7 @@ app.post("/create", async (req, res) => {
   let payload = req.body;
   // Hash the password
   const hashedPassword = await bcrypt.hash(payload.password, 10);
-  payload.password = hashedPassword; // Replace the plain password with the hashed one
+  payload.password = hashedPassword;
 
   try {
     let new_user = new userModel(payload);
@@ -71,11 +72,12 @@ app.post("/create", async (req, res) => {
   }
 });
 
-app.use(signUpRouter);
-app.use(loginRouter);
-app.use("/product", productRouter);
-app.use("/cart",cartRouter)
 
+app.use("/",signUpRouter);
+app.use("/",authenticate, loginRouter);
+app.use("/user", authenticate, userRouter);
+app.use("/product", authenticate, productRouter);
+app.use("/cart", authenticate, cartRouter);
 
 if (!process.env.PORT) {
   console.error("Error: PORT is not defined in environment variables");

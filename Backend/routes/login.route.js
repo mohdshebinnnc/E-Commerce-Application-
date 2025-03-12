@@ -1,35 +1,47 @@
-const express = require('express');
+const express = require("express");
 const { userModel } = require("../model/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-require('dotenv').config();
-const app = express();
+require("dotenv").config();
 
 let loginRouter = express.Router();
 
 loginRouter.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+  console.log("🔹 Received login request", req.body);
 
-    try {
-        let user = await userModel.findOne({ email });
-
-        if (user) {
-            let hashed_password = user.password;
-            bcrypt.compare(password, hashed_password, function(err, result) {
-                if (result) {
-                    const token = jwt.sign({ "userID": user._id }, process.env.SECRET_KEY);
-                    res.send({ "msg": "Login Successful", "token": token });
-                } else {
-                    res.send("Login Failed! Enter the correct password");
-                }
-            });
-        } else {
-            res.send("Login failed! Please register first");
-        }
-    } catch (error) {
-        res.json({ "Message": "Something went wrong!", error });
+  const { email, password } = req.body;
+  try {
+    let user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ msg: "Login failed! Please register first" });
     }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ msg: "Login Failed! Enter the correct password" });
+    }
+
+    const token = jwt.sign(
+      { userID: user._id, email: user.email },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1d",
+      }
+    );
+    console.log("token recieved",token)
+    res.json({ msg: "Login Successful" });
+  } catch (error) {
+    console.error("Login Error:", error);
+    res
+      .status(500)
+      .json({ msg: "Something went wrong!", error: error.message }); // ✅ Force JSON format
+  }
 });
 
 module.exports = { loginRouter };

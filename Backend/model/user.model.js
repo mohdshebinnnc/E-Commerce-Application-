@@ -3,6 +3,10 @@ const userSchema=mongoose.Schema({
     name:{type:String,required:true},
     email:{type:String,required:true,unique:true},
     password:{type:String,required:true,min:5,max:8},
+    address:{
+        type:String,
+        default:""
+    }
     // age:{type:Number,required:true},
 
 

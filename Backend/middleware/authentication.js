@@ -1,13 +1,29 @@
-const jwt=require("jsonwebtoken");
-require('dotenv').config()
+const jwt = require("jsonwebtoken");
 
-console.log(process.env.SCRET_KEY)
+const authenticate = (req, res, next) => {
+    const token = req.headers?.authorization?.split(" ")[1];
+    console.log("🔹 Received Token:", token);
 
-const authenticate=(req,res,next)=>{
-    const token=req.headers?.authorization?.split(" ")[1]
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            console.log("✅ Token Decoded:", decoded);
 
-    if(token){
-        const decoded=jwt.verify(token)
+            if (decoded) {
+                req.body.email = decoded.email;
+                req.body.userID = decoded.userID;
+                next(); // Move next() inside the try block
+            } else {
+                console.log("❌ Token verification failed");
+
+                return res.status(401).json({ msg: "Login Please" }); // JSON response
+            }
+        } catch (error) {
+            return res.status(401).json({ msg: "Invalid or Expired Token" });
+        }
+    } else {
+        return res.status(401).json({ msg: "Login Please" });
     }
-}
+};
 
+module.exports = { authenticate };
