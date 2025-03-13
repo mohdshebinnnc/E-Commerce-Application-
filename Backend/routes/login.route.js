@@ -35,7 +35,7 @@ loginRouter.post("/login", async (req, res) => {
       }
     );
     console.log("token recieved",token)
-    res.json({ msg: "Login Successful" });
+    res.json({ msg: "Login Successful",token, user: { _id: user._id} });
   } catch (error) {
     console.error("Login Error:", error);
     res

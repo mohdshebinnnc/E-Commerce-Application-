@@ -74,9 +74,9 @@ app.post("/create", async (req, res) => {
 
 
 app.use("/",signUpRouter);
-app.use("/",authenticate, loginRouter);
+app.use("/", loginRouter);
 app.use("/user", authenticate, userRouter);
-app.use("/product", authenticate, productRouter);
+app.use("/product", productRouter);
 app.use("/cart", authenticate, cartRouter);
 
 if (!process.env.PORT) {

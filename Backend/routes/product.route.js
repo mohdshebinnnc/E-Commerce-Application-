@@ -28,6 +28,41 @@ productRouter.get("/:id", async (req, res) => {
     }
 });
 
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + "-" + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+productRouter.post("/create", upload.array('productImage', 12), async (req, res) => {
+    try {
+        const { productName, productDescription, productPrice } = req.body;
+
+        const imgPaths = req.files.map((file) => `/uploads/${file.filename}`);
+
+        const newProduct = new productModel({
+            productName,
+            productDescription,
+            productPrice,
+            productImages: imgPaths
+        });
+
+        await newProduct.save();
+        res.json({ "message": "Hurray! Successfully added the product to the database", product: newProduct });
+
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        res.status(500).json({ error: "Failed to create product" });
+    }
+});
+
 productRouter.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
@@ -65,37 +100,5 @@ productRouter.put("/update/:id", multer().array('productImage', 12), async (req,
     }
 });
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + "-" + file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
-
-productRouter.post("/create", upload.array('productImage', 12), async (req, res) => {
-    try {
-        const { productName, productDescription, productPrice } = req.body;
-
-        const imgPaths = req.files.map((file) => `/uploads/${file.filename}`);
-
-        const newProduct = new productModel({
-            productName,
-            productDescription,
-            productPrice,
-            productImages: imgPaths
-        });
-
-        await newProduct.save();
-        res.json({ "message": "Hurray! Successfully added the product to the database", product: newProduct });
-
-    } catch (error) {
-        console.error(error); // Log the error for debugging
-        res.status(500).json({ error: "Failed to create product" });
-    }
-});
 
 module.exports = { productRouter };

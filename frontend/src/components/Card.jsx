@@ -4,6 +4,7 @@ import axios from "axios";
 
 const Card = ({ product, onEdit, addToCart }) => {
   const navigate = useNavigate();
+  const productId=product._id;
 
   // ✅ Prevent rendering if product is undefined or null
   if (!product) {
@@ -14,12 +15,51 @@ const Card = ({ product, onEdit, addToCart }) => {
     navigate(`/editProduct/${product._id}`);
   };
 
-  const handlecart = () => {
-    if (addToCart) {
-      addToCart(product);
+  const handlecart = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");  // ✅ Ensure `userId` is stored
+  
+    if (!token) {
+      alert("You need to log in first!");
+      return;
+    }
+  
+    if (!userId) {
+      alert("User ID is missing! Please log in again.");
+      return;
+    }
+  
+    const cartData = {
+      productId: product._id,
+      quantity: 1,  // ✅ Default quantity
+      userId: userId
+    };
+  
+    console.log("📡 Sending request to backend:", cartData); // 🔍 Debugging
+  
+    try {
+      const response = await fetch("http://localhost:8080/cart/add-to-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(cartData),
+      });
+  
+      const result = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to add to cart");
+      }
+  
       alert(`${product.productName} added to cart!`);
+    } catch (error) {
+      console.error("🚨 Error adding to cart:", error);
+      alert("Failed to add product to cart. Please try again.");
     }
   };
+  
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
@@ -27,8 +67,14 @@ const Card = ({ product, onEdit, addToCart }) => {
     );
     if (confirmDelete) {
       try {
+        const token=localStorage.getItem("token")
         const response = await axios.delete(
-          `http://localhost:8080/product/delete/${product._id}`
+          `http://localhost:8080/product/delete/${product._id}`,
+          {
+            headers:{
+              "Authorization":`Bearer ${token}`
+            }
+          }
         );
         alert(response.data.message);
       } catch (error) {
