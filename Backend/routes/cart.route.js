@@ -4,16 +4,16 @@ const { cartModel } = require("../model/cart.model");
 let cartRouter = express.Router();
 
 
-cartRouter.get("/",async(req,res) => {
-    const {userID}=req.body
-
+cartRouter.get("/", async (req, res) => {
     try {
-        const cartProducts=await cartModel.find({userId:userID}).populate("productId")
-        res.send({"message":"Successfully retrived tge cart data from database",data:cartProducts})
+        const cartProducts = await cartModel.find().populate("productId");
+        console.log("Cart API Response:", cartProducts); // ✅ Debugging log
+        res.send({ message: "Successfully retrieved cart data", data: cartProducts });
     } catch (error) {
-        res.send({"Error-message":error})
+        console.error("Cart Fetch Error:", error);
+        res.status(500).send({ error: "Failed to fetch cart items" });
     }
-})
+});
 
 cartRouter.post("/add-to-cart", async (req, res) => {
     const { productId,quantity,userId } = req.body;
@@ -53,6 +53,7 @@ cartRouter.post("/add-to-cart", async (req, res) => {
     }
 });
 
+
 cartRouter.get("/:userId", async (req, res) => {
     try {
         const cartItems = await cartModel.find({ 
@@ -69,6 +70,40 @@ cartRouter.get("/:userId", async (req, res) => {
 });
 
 
+cartRouter.put("/increase/:cartItemId", async (req, res) => {
+    try {
+        const cartItem = await cartModel.findById(req.params.cartItemId);
+        if (!cartItem) return res.status(404).send({ message: "Cart item not found" });
+
+        cartItem.quantity += 1;
+        await cartItem.save();
+
+        res.status(200).send({ message: "Product quantity increased", data: cartItem });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Failed to increase product quantity" });
+    }
+});
+
+
+cartRouter.put("/decrease/:cartItemId", async (req, res) => {
+    try {
+        const cartItem = await cartModel.findById(req.params.cartItemId);
+        if (!cartItem) return res.status(404).send({ message: "Cart item not found" });
+
+        if (cartItem.quantity > 1) {
+            cartItem.quantity -= 1;
+            await cartItem.save();
+            res.status(200).send({ message: "Product quantity decreased", data: cartItem });
+        } else {
+            await cartModel.findByIdAndDelete(req.params.cartItemId);
+            res.status(200).send({ message: "Product removed from cart" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Failed to decrease product quantity" });
+    }
+});
 
 cartRouter.delete("/remove/:cartItemId", async (req, res) => {
     try {

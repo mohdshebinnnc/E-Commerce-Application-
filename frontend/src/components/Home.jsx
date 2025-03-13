@@ -8,7 +8,8 @@ const Home = ({ addToCart }) => {
   let [productData, setProductData] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("Token");
+    const token = localStorage.getItem("token"); // Ensure correct key name
+    console.log("🔹 Retrieved Token from localStorage:", token);
   
     if (!token) {
       console.error("No token found. Please log in.");
@@ -19,23 +20,23 @@ const Home = ({ addToCart }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, // Attach token here
+        "Authorization": `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        if (!res.ok) {
-          return res.text().then((text) => { throw new Error(text) });
-        }
-        return res.json();
-      })
-      .then((res) => {
-        console.log("Fetched Products:", res);
-        setProductData(res.data || []);
-      })
-      .catch((err) => {
-        console.error("Error fetching products:", err);
-      });
-  }, []);
+    .then((res) => {
+      if (!res.ok) {
+        return res.text().then((text) => { throw new Error(text) });
+      }
+      return res.json();
+    })
+    .then((res) => {
+      console.log("Fetched Products:", res);
+      setProductData(res.data || []);
+    })
+    .catch((err) => {
+      console.error("Error fetching products:", err);
+    });
+  }, []);  
   
   
 

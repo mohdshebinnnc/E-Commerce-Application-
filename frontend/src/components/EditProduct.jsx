@@ -7,15 +7,28 @@ const EditProduct = ({ onEdit }) => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/product/${id}`)
-            .then((res) => res.json())
-            .then((res) => {
-                setProduct(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const token = localStorage.getItem("token"); 
+        fetch(`http://localhost:8080/product/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`, 
+                "Content-Type": "application/json"
+            }
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}: Unauthorized request`);
+            }
+            return res.json();
+        })
+        .then((res) => {
+            setProduct(res.data);
+        })
+        .catch((err) => {
+            console.log("Fetch error:", err);
+            setError("Failed to fetch product. Please check your login.");
+        });
     }, [id]);
+    
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -38,7 +51,6 @@ const EditProduct = ({ onEdit }) => {
 
         const { productName, productDescription, productPrice, productImage } = product;
 
-        // Validate inputs first
         if (!productName || !productDescription || !productPrice || !productImage) {
             setError('All fields are required');
             return;
@@ -52,21 +64,29 @@ const EditProduct = ({ onEdit }) => {
         formData.append('productPrice', productPrice);
         formData.append('productImage', productImage);
 
+        const token = localStorage.getItem("token");
+
         fetch(`http://localhost:8080/product/update/${id}`, {
             method: 'PUT',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
             body: formData,
         })
-        .then((res) => res.json())
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}: Unauthorized`);
+            }
+            res.json()
+        })
         .then((data) => {
             console.log("Updated product data:", { ...product, id }); // Log the updated product data
-            console.log("Updated product data:", { ...product, id }); // Log the updated product data
             alert(data.message);
-
-
             onEdit({ ...product, id }); // Call the onEdit callback with the updated product
         })
         .catch((err) => {
             console.log(err);
+            setError("Failed to update product. Check your login.");
         });
     };
 
@@ -148,7 +168,7 @@ const EditProduct = ({ onEdit }) => {
                             type="text"
                             id="productName"
                             name="productName"
-                            value={product.productName || ""}
+                            value={product?.productName || ""}
                             onChange={handleChange}
                             style={inputStyle}
                         />
@@ -161,7 +181,7 @@ const EditProduct = ({ onEdit }) => {
                             type="text"
                             id="productDescription"
                             name="productDescription"
-                            value={product.productDescription || ""}
+                            value={product?.productDescription || ""}
                             onChange={handleChange}
                             style={inputStyle}
                         />
@@ -174,7 +194,7 @@ const EditProduct = ({ onEdit }) => {
                             type="text"
                             id="productPrice"
                             name="productPrice"
-                            value={product.productPrice || ""}
+                            value={product?.productPrice || ""}
                             onChange={handleChange}
                             style={inputStyle}
                         />
