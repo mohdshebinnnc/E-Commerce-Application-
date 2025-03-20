@@ -23,6 +23,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+
       <Routes>
         <Route path="/" element={<Home addToCart={addToCart} />} />
         <Route path="/login" element={<Login />} />

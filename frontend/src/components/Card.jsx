@@ -42,7 +42,7 @@ const Card = ({ product, onEdit, addToCart }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(cartData),
       });

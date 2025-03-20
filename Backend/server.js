@@ -9,6 +9,8 @@ const { loginRouter } = require("./routes/login.route");
 const { signUpRouter } = require("./routes/signup.route");
 const { cartRouter } = require("./routes/cart.route");
 const { userRouter } = require("./routes/user.route");
+const {profileRouter}=require("./routes/profile.route")
+
 const { authenticate } = require("./middleware/authentication");
 
 const app = express();
@@ -77,7 +79,9 @@ app.use("/",signUpRouter);
 app.use("/", loginRouter);
 app.use("/user", authenticate, userRouter);
 app.use("/product", productRouter);
+app.use("/profile",authenticate,profileRouter)
 app.use("/cart", authenticate, cartRouter);
+
 
 if (!process.env.PORT) {
   console.error("Error: PORT is not defined in environment variables");
