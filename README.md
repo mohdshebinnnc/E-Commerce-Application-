@@ -350,5 +350,6 @@ I chose this project because it provides an opportunity to practice and demonstr
 ## Steps  
 1. *Create PaymentOptions Page* – Show payment choices to users.  
 2. *Integrate PayPal* – Use @paypal/react-paypal-js for online payments.  
-3. *Save Order on Success* – Call /api/v1/orders/create after successful payment.  
+3. *Save Order on Success* – Call /api/v1/orders/create after successful payment. 
 4. *Redirect on Completion* – Navigate to /order-success after order placement.
+
