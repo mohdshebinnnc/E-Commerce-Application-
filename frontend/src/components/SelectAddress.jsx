@@ -30,7 +30,7 @@ const SelectAddress = () => {
     const handleConfirmAddress = () => {
         if (selectedAddress) {
             localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
-            navigate("/checkout"); // Redirect to checkout page
+            navigate("/orders");
         } else {
             alert("Please select an address!");
         }

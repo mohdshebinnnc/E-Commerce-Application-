@@ -10,6 +10,7 @@ import Card from "./components/Card";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile"
 import SelectAddress from "./components/SelectAddress"
+import OrderSummary from "./components/OrderSummary"
 import { useState } from "react";
 import Orders from "./components/Orders";
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/select-address" element={<SelectAddress/>}/>
         <Route path="/order" element={<Orders/>}/>
+        <Route path="/orders" element={<OrderSummary/>}/>
       </Routes>
     </Router>
   );

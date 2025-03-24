@@ -2,12 +2,12 @@ const jwt = require("jsonwebtoken");
 
 const authenticate = (req, res, next) => {
     const token = req.headers?.authorization?.split(" ")[1];
-    console.log("🔹 Received Token:", token);
+    // console.log("🔹 Received Token:", token);
 
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            console.log("✅ Token Decoded:", decoded);
+            // console.log("✅ Token Decoded:", decoded);
 
             if (decoded) {
                 req.body.email = decoded.email;

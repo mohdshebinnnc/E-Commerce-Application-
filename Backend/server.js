@@ -10,13 +10,14 @@ const { signUpRouter } = require("./routes/signup.route");
 const { cartRouter } = require("./routes/cart.route");
 const { userRouter } = require("./routes/user.route");
 const {profileRouter}=require("./routes/profile.route")
+const {orderRouter}=require("./routes/order.route")
 
 const { authenticate } = require("./middleware/authentication");
 
 const app = express();
 app.use(express.json());
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors()); 
 
 if (!process.env.mongoURL) {
   console.error(
@@ -81,6 +82,8 @@ app.use("/user", authenticate, userRouter);
 app.use("/product", productRouter);
 app.use("/profile",authenticate,profileRouter)
 app.use("/cart", authenticate, cartRouter);
+app.use("/orders", authenticate, orderRouter);
+
 
 
 if (!process.env.PORT) {

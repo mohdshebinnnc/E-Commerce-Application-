@@ -7,7 +7,7 @@ let cartRouter = express.Router();
 cartRouter.get("/", async (req, res) => {
     try {
         const cartProducts = await cartModel.find().populate("productId");
-        console.log("Cart API Response:", cartProducts); // ✅ Debugging log
+        console.log("Cart API Response:", cartProducts); 
         res.send({ message: "Successfully retrieved cart data", data: cartProducts });
     } catch (error) {
         console.error("Cart Fetch Error:", error);
