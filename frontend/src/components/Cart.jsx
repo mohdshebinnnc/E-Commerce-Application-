@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [productData, setProductData] = useState([]); 
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchCartProducts();
@@ -98,7 +101,12 @@ const Cart = () => {
           </div>
         ))
       )}
+      <button onClick={() => navigate("/select-address")}>
+        Place Order
+      </button>
     </div>
+
+    
   );
 };
 
