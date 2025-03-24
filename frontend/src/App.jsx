@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar"; // Importing the Navbar component
 import Card from "./components/Card";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile"
+import SelectAddress from "./components/SelectAddress"
 import { useState } from "react";
 import Orders from "./components/Orders";
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/cart-item" element={<Cart cartItems={cartItems} />} />
         <Route path="/cart" element={<Card addToCart={addToCart} />} />
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/select-address" element={<SelectAddress/>}/>
         <Route path="/order" element={<Orders/>}/>
       </Routes>
     </Router>

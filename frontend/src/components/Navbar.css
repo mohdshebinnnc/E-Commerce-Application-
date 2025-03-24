@@ -1,25 +1,104 @@
-nav {
-  background-color: #333;
-  padding: 1rem;
+/* ✅ Navbar Styles */
+.navbar {
+  background-color: #1B1F3B;  /* Professional Dark Blue */
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-nav ul {
+.navbar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* ✅ Logo */
+.logo {
+  font-size: 1.8rem;
+  color: #F4A261; /* Gold Accent */
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ✅ Navigation Links */
+.nav-links {
   list-style: none;
   display: flex;
-  justify-content: space-between; 
+  gap: 1.5rem;
 }
 
-
-nav ul li {
-  margin: 0 1rem;
+.nav-links li {
+  list-style: none;
 }
 
-nav ul li a {
-  color: white;
+.nav-links a {
+  color: #EAEAEA; /* Light Gray for Readability */
   text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+/* ✅ Hover Effects */
+.nav-links a:hover {
+  background-color: #F4A261; /* Gold on Hover */
+  color: #1B1F3B; /* Dark Blue */
+}
+
+/* ✅ Active Link Highlight */
+.nav-links .active {
+  background-color: #F4A261; /* Gold Accent */
+  color: #1B1F3B; /* Dark Blue */
+  border-radius: 5px;
   font-weight: bold;
 }
 
-nav ul li a:hover {
-  text-decoration: underline;
+/* ✅ Mobile Menu */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  color: #EAEAEA;
+  cursor: pointer;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #1B1F3B;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+    display: none;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 1rem;
+  }
 }

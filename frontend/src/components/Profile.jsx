@@ -7,7 +7,7 @@ const Profile = () => {
     street: "",
     city: "",
     state: "",
-    zip: "",
+    zip: ""
   });
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const userId = localStorage.getItem("userId");
