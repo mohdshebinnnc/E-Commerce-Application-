@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -11,7 +12,7 @@ import Cart from "./components/Cart";
 import Profile from "./components/Profile"
 import SelectAddress from "./components/SelectAddress"
 import OrderSummary from "./components/OrderSummary"
-import { useState } from "react";
+import MyOrders from "./components/MyOrders"
 import Orders from "./components/Orders";
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
         <Route path="/select-address" element={<SelectAddress/>}/>
         <Route path="/order" element={<Orders/>}/>
         <Route path="/orders" element={<OrderSummary/>}/>
+        <Route path="/my-orders" element={<MyOrders/>}/>
+
       </Routes>
     </Router>
   );

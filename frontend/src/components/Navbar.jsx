@@ -39,6 +39,9 @@ const Navbar = () => {
           <li>
             <Link to="/profile" className={location.pathname === "/profile" ? "active" : ""}>Profile</Link>
           </li>
+          <li>
+            <Link to="/my-orders" className={location.pathname === "/my-orders" ? "active" : ""}>My Orders</Link>
+          </li>
         </ul>
       </div>
     </nav>
