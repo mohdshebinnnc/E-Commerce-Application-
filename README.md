@@ -409,3 +409,10 @@ I chose this project because it provides an opportunity to practice and demonstr
 - **Enable Cookies in Requests** – Set `credentials: "include"` in fetch/axios calls.
 - **Persist Redux State** – Added `redux-persist` to store user email across refreshes.
 - **Handle Unauthorized Access** – Redirected users to login on `401/403` errors.
+
+
+## Frontend-deployed-link:
+https://e-commerce-application-zeta-seven.vercel.app/
+
+## Backend-deployed-link:
+https://e-commerce-application-1-tcv0.onrender.com
