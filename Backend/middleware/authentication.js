@@ -12,11 +12,11 @@ const authenticate = (req, res, next) => {
             if (decoded) {
                 req.body.email = decoded.email;
                 req.body.userID = decoded.userID;
-                next(); // Move next() inside the try block
+                next(); 
             } else {
-                console.log("❌ Token verification failed");
+                console.log("Token verification failed");
 
-                return res.status(401).json({ msg: "Login Please" }); // JSON response
+                return res.status(401).json({ msg: "Login Please" }); 
             }
         } catch (error) {
             return res.status(401).json({ msg: "Invalid or Expired Token" });

@@ -81,7 +81,7 @@ app.use("/", loginRouter);
 app.use("/user", authenticate, userRouter);
 app.use("/product", productRouter);
 app.use("/profile",authenticate,profileRouter)
-app.use("/cart", authenticate, cartRouter);
+app.use("/cart", authenticate,  cartRouter);
 app.use("/orders", authenticate, orderRouter);
 
 
