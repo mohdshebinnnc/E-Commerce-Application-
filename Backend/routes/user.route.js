@@ -1,7 +1,7 @@
 const express=require('express')
 const {userModel}=require("../model/user.model")
 
-let userRouter=express.Router()
+const userRouter=express.Router()
 
 userRouter.get("/profile",async(req,res) => {
     const {userId}=req.body
