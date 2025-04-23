@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const multer = require("multer");
+const multer = require("multer")
 const { userModel } = require("./model/user.model");
 const { productRouter } = require("./routes/product.route");
 const { loginRouter } = require("./routes/login.route");
@@ -50,7 +50,7 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single("myFile"), (req, res) => {
   try {
     console.log(req.file);
-    res.send({ message: "file uploaded sucessfully" });
+    res.send({ message: "file uploaded sucessfully!!!" });
   } catch (error) {
     console.log(error);
     res.send({ error: "error" });
@@ -59,7 +59,6 @@ app.post("/upload", upload.single("myFile"), (req, res) => {
 
 app.post("/create", async (req, res) => {
   let payload = req.body;
-  // Hash the password
   const hashedPassword = await bcrypt.hash(payload.password, 10);
   payload.password = hashedPassword;
 
@@ -67,7 +66,7 @@ app.post("/create", async (req, res) => {
     let new_user = new userModel(payload);
     await new_user.save();
     res.send({
-      message: "Hurray! Successfully saved the user to the database",
+      message: "Hurray!! Successfully saved the user to the database",
     });
   } catch (error) {
     console.log(error);
