@@ -353,3 +353,59 @@ I chose this project because it provides an opportunity to practice and demonstr
 3. *Save Order on Success* – Call /api/v1/orders/create after successful payment. 
 4. *Redirect on Completion* – Navigate to /order-success after order placement.
 
+
+## Milestone 31: Redux Setup
+
+### Learning Goals
+- Implement Redux for global state management.
+- Store user email in Redux instead of `localStorage`.
+
+### 🔧 Steps
+- **Install Redux** – Installed `react-redux` and created a `store` folder.
+- **Configure Store** – Set up `store.js` with `userReducer` to manage email state.
+- **Define Actions** – Created `setEmail` function in `userActions.js`.
+- **Integrate Redux** – Wrapped `<App />` with `<Provider>` in `main.jsx`.
+
+---
+
+## Milestone 32: Redux Email Management
+
+### Learning Goals
+- Store and retrieve user email using Redux.
+- Eliminate redundant email storage in `localStorage` and URL params.
+
+### 🔧 Steps
+- **Update Login Page** – Used `useDispatch` to store email in Redux after login.
+- **Use Redux in Components** – Modified `OrderConfirmation`, `PaymentOptions`, and `MyOrders` to access email via `useSelector`.
+- **Remove Redundant Storage** – Removed `localStorage.setItem("userEmail")`.
+- **Add Authentication Check** – Redirected unauthenticated users to login.
+
+---
+
+## Milestone 33: JWT Authentication
+
+### Learning Goals
+- Implement JWT-based authentication with cookies.
+- Secure authentication using `httpOnly` cookies.
+
+### 🔧 Steps
+- **Install `jsonwebtoken`** – Added `jsonwebtoken` to the backend.
+- **Generate JWT** – Updated `loginUser` to create a token using `jwt.sign`.
+- **Set Expiration & Cookie** – Configured a 1-hour expiration and sent the token via `res.cookie`.
+- **Update Frontend** – Removed `localStorage.setItem("token")`, relying on cookies instead.
+
+---
+
+## Milestone 34: Cookie-Based Authentication
+
+### Learning Goals
+- Secure authentication with middleware and `httpOnly` cookies.
+- Persist Redux state across refreshes.
+
+### 🔧 Steps
+- **Create Middleware** – Added `authenticateToken` to validate `authToken`.
+- **Protect Routes** – Applied middleware to `/getCart` and `/getProfile`.
+- **Update Profile Feature** – Used `req.user.id` to fetch profile data.
+- **Enable Cookies in Requests** – Set `credentials: "include"` in fetch/axios calls.
+- **Persist Redux State** – Added `redux-persist` to store user email across refreshes.
+- **Handle Unauthorized Access** – Redirected users to login on `401/403` errors.
