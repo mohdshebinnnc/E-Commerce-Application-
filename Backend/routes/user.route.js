@@ -7,12 +7,12 @@ userRouter.get("/profile",async(req,res) => {
     const {userId}=req.body
 
     try {
-        const user=await userModel.findById(userId)
+        const User=await userModel.findById(userId)
 
-        if(!user){
+        if(!User){
             return res.status(404).json({message:"User not found"})
         }
-        res.json(user)
+        res.json(User)
     } catch (error) {
         console.log(error)
         res.status(500).json({message:"server error"})

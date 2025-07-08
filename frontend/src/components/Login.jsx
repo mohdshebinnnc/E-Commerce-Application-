@@ -34,14 +34,12 @@
           localStorage.setItem("userId", data.user._id);
           console.log("✅ Token Saved:", localStorage.getItem("token"));
           alert("Login successful!");
-          // console.log("Token:", data.token);
           navigate("/")
         } else {
           alert(data.msg);
         }
       } catch (error) {
         console.log("Error:", error);
-        // alert("Something went wrong. Please try again!");
         alert(error.message)
       }
     };

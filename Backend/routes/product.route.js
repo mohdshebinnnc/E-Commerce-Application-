@@ -9,7 +9,7 @@ productRouter.get("/", async (req, res) => {
         const product = await productModel.find();
         res.send({ "message": "Successfully retrieved the data from the database", data: product });
     } catch (error) {
-        console.error(error); // Log the error for debugging
+        console.error(error); 
         res.status(500).send({ "Error-message": "Failed to retrieve products" });
     }
 });
